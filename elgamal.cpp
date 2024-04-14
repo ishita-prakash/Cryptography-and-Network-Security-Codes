@@ -22,7 +22,7 @@ int main(){
     //decryption
     int x = 1;
     while(1){
-        if(5 * x % 7 == 1){
+        if(public_b * x % q == 1){
             break;
         }
         x++;
