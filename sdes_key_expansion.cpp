@@ -1,118 +1,124 @@
+//SDES
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
+//P10 function
+vector<int> P10(vector<int> key){
+    vector<int> res(10);
+
+    res[0] = key[2];
+    res[1] = key[4];
+    res[2] = key[1];
+    res[3] = key[6];
+    res[4] = key[3];
+    res[5] = key[9];
+    res[6] = key[0];
+    res[7] = key[8];
+    res[8] = key[7];
+    res[9] = key[5];
+    
+    return res;
+}
+
+//P8 function
+vector<int> P8(vector<int> key){
+    vector<int> res(8);
+    
+    res[0] = key[5];
+    res[1] = key[2];
+    res[2] = key[6];
+    res[3] = key[3];
+    res[4] = key[7];
+    res[5] = key[4];
+    res[6] = key[9];
+    res[7] = key[8];
+    
+    return res;
+}
+
+//Circular Left Shift function
+vector<int> left_shift(vector<int> res){
+    
+    res.push_back(res[0]);
+    res.erase(res.begin());
+    
+    return res;
+}
+
 int main(){
+    //user input
     string key_input;
-    cin>>key_input;
+    getline(cin, key_input);
     
+    //mapping user input from string to vector<int>
     vector<int> key(10);
-    
+
     for(int i=0; i<10; i++){
-        key[i] = key_input[i] - 48; // or key_input[i] - '0'
+        key[i] = key_input[i] - '0';
     }
     
+    //P10
     vector<int> temp(10);
+    temp = P10(key);
     
-    //P10 in temp
-    temp[0] = key[2];
-    temp[1] = key[4];
-    temp[2] = key[1];
-    temp[3] = key[6];
-    temp[4] = key[3];
-    temp[5] = key[9];
-    temp[6] = key[0];
-    temp[7] = key[8];
-    temp[8] = key[7];
-    temp[9] = key[5];
+    //--------key1 generation--------
     
+    //left and right
     vector<int> left(5), right(5);
-    
-    //divide temp into left and right
+
     for(int i=0; i<5; i++){
         left[i] = temp[i];
+        right[i] = temp[i+5];
     }
     
-    for(int i=5; i<10; i++){
-        right[i-5] = temp[i];
-    }
+    //1-bit CLS
+    left = left_shift(left);
+    right = left_shift(right);
     
-    //1-bit left shift
-    left.push_back(left[0]);
-    left.erase(left.begin());
-    
-    right.push_back(right[0]);
-    right.erase(right.begin());
-    
-    //combine left and right in temp1
-    vector<int> temp1(10);
-    
+    //combine in temp
     for(int i=0; i<5; i++){
-        temp1[i] = left[i];
-    }
-    
-    for(int i=5; i<10; i++){
-        temp1[i] = right[i-5];
+        temp[i] = left[i];
+        temp[i+5] = right[i];
     }
     
     //P8
     vector<int> key1(8);
+    key1 = P8(temp);
     
-    key1[0] = temp1[5];
-    key1[1] = temp1[2];
-    key1[2] = temp1[6];
-    key1[3] = temp1[3];
-    key1[4] = temp1[7];
-    key1[5] = temp1[4];
-    key1[6] = temp1[9];
-    key1[7] = temp1[8];
-    
-    //key1
-    for(int x: key1){
-        cout<<x;
+    //key1 output
+    for(int x : key1){
+        cout << x;
     }
     
-    cout<<endl;
+    cout << endl;
     
-    //key2 generation process
+    //--------key2 generation--------
     
-    //2-bit left shift
-    left.push_back(left[0]);
-    left.erase(left.begin());
-    left.push_back(left[0]);
-    left.erase(left.begin());
+    //2-bit CLS
+    left = left_shift(left);
+    left = left_shift(left);
     
-    right.push_back(right[0]);
-    right.erase(right.begin());
-    right.push_back(right[0]);
-    right.erase(right.begin());
+    right = left_shift(right);
+    right = left_shift(right);
     
-    //combine left and right in temp2
-    vector<int> temp2(10);
-       
+    //combine in temp
     for(int i=0; i<5; i++){
-        temp2[i] = left[i];
-    }
-
-    for(int i=5; i<10; i++){
-        temp2[i] = right[i-5];
+        temp[i] = left[i];
+        temp[i+5] = right[i];
     }
     
     //P8
     vector<int> key2(8);
-    key2[0] = temp2[5];
-    key2[1] = temp2[2];
-    key2[2] = temp2[6];
-    key2[3] = temp2[3];
-    key2[4] = temp2[7];
-    key2[5] = temp2[4];
-    key2[6] = temp2[9];
-    key2[7] = temp2[8];
+    key2 = P8(temp);
     
-    //key2
-    for(int x: key2){
-        cout<<x;
+    //key2 output
+    for(int x : key2){
+        cout << x;
     }
+    
+    cout << endl;
     
     return 0;
 }
