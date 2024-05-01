@@ -2,8 +2,6 @@
 //works for a particular input
 //took references from other code
 
-//aes
-
 #include <bits/stdc++.h>
 
 using namespace std;
